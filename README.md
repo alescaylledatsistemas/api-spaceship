@@ -3,7 +3,7 @@ Prueba técnica Spring Boot
 
 En este repo podemos encontrar la aplicación desarrolla en base a la prueba técnica presentada.
 
-La aplicación ha sido dockerizada. Mediante el comando docker load -i api-spaceship.tar podemos cargar la imagen.
+La aplicación ha sido dockerizada. Podemos cargar la imagen desde el archivo "api-spaceship.tar" o podemos directamente desde Docker Hub "alldaudinot/api-spaceship:1".
 
 El directorio functionality-test contiene una colección de postman mediante la cual podemos testear las distintas funcionalidades. La api ha sido securizada. Con la petición "create-token" podemos generar el JWT requerido para las restantes peticiones menos "kafka-broker" (creada solamente para probar el envio de mensajes a un tópico). Tenemos las credenciales admin/admin con roles ADMIN y USER y user/user con el rol de USER. 
 
