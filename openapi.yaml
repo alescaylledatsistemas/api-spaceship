@@ -1,0 +1,605 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+tags:
+  - name: Actuator
+    description: Monitor and interact
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/docs/current/actuator-api/html/
+paths:
+  /api/v1/spaceships/{id}:
+    get:
+      tags:
+        - Spaceships
+      operationId: findById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SpaceshipListDTO'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+    put:
+      tags:
+        - Spaceships
+      operationId: updateSpaceship
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpaceshipDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SpaceshipListDTO'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+    delete:
+      tags:
+        - Spaceships
+      operationId: delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/v1/spaceships:
+    get:
+      tags:
+        - Spaceships
+      operationId: findAll
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SpaceshipListDTO'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+    post:
+      tags:
+        - Spaceships
+      operationId: createSpaceship
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpaceshipDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SpaceshipListDTO'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/v1/kafka-messages:
+    post:
+      tags:
+        - message-controller
+      operationId: sendMessage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/v1/auth:
+    post:
+      tags:
+        - Authentication
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JwtAuthDTO'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/v1/spaceships/name-contain:
+    get:
+      tags:
+        - Spaceships
+      operationId: findByNameContainingText
+      parameters:
+        - name: text
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SpaceshipListDTO'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/mgmt:
+    get:
+      tags:
+        - Actuator
+      summary: Actuator root web endpoint
+      operationId: links
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/mgmt/metrics:
+    get:
+      tags:
+        - Actuator
+      summary: Actuator web endpoint 'metrics'
+      operationId: metrics
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/mgmt/metrics/{requiredMetricName}:
+    get:
+      tags:
+        - Actuator
+      summary: Actuator web endpoint 'metrics-requiredMetricName'
+      operationId: metrics-requiredMetricName
+      parameters:
+        - name: requiredMetricName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/mgmt/info:
+    get:
+      tags:
+        - Actuator
+      summary: Actuator web endpoint 'info'
+      operationId: info
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/mgmt/health:
+    get:
+      tags:
+        - Actuator
+      summary: Actuator web endpoint 'health'
+      operationId: health
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/mgmt/health/**:
+    get:
+      tags:
+        - Actuator
+      summary: Actuator web endpoint 'health-path'
+      operationId: health-path
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+components:
+  schemas:
+    SpaceshipDTO:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+        releaseYear:
+          type: integer
+          format: int32
+    SpaceshipListDTO:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        releaseYear:
+          type: integer
+          format: int32
+    LoginDTO:
+      required:
+        - password
+        - username
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    JwtAuthDTO:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        tokenType:
+          type: string
+    Link:
+      type: object
+      properties:
+        href:
+          type: string
+        templated:
+          type: boolean
